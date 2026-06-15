@@ -2,7 +2,7 @@ import mysql.connector
 import random 
 import time 
    #mysql database connection 
-hi=mysql.connector.connect(user="root",host='localhost',passwd='123456') 
+hi=mysql.connector.connect(user="root",host='localhost',passwd='your password here') 
 cursor=hi.cursor() 
 cursor.execute("use word_scramble") 
   

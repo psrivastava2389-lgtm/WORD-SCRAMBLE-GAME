@@ -19,16 +19,16 @@ def scramble_word(word):
 def start_game(name,user_id,passwd,score=0): 
     try: 
         cursor.execute(("insert INTO user_detail VALUES (%s,%s,%s)"),(name,user_id,passwd)) 
-        cursor.execute(('insert into scores values(%s,%s)'),(score,name)) 
+        cursor.execute(('insert into scores values(%s,%s)'),(score,user_id)) 
         hi.commit() 
         print("{Data added successfully}") 
     except: 
-        print("username already exists, TRY AGAIN") 
+        print("userid already exists, TRY AGAIN") 
     else: 
-        play_game(name) 
+        play_game(user_id) 
   
  #accessing users from database 
-cursor.execute("select username from scores") 
+cursor.execute("select user_id from scores") 
 users=[] 
 k=cursor.fetchall() 
 for i in k: 
@@ -47,15 +47,15 @@ def creation():
     if ch in'nN': 
         adduser() 
     elif ch in 'oO': 
-        name=input('enter username:') 
+        user_id=input('enter user id:') 
         line() 
         for i in users: 
-            if i.lower()==name.lower(): 
-                    score=old_user(name) 
-                    play_game(name,int(score)) 
+            if i==user_id: 
+                    score=old_user(user_id) 
+                    play_game(user_id,score) 
                     break 
         else: 
-            print('username not found') 
+            print('user id not found') 
             creation() 
     else: 
         print("OOPS! invalid literal. TRY AGAIN") 
@@ -70,14 +70,14 @@ def adduser():
     start_game(name,user_id,passwd,score=0) 
   
  #func on for an old user to play the game 
-def old_user(name): 
-    cursor.execute(("select score from scores where username=(%s)"),(name,)) 
+def old_user(user_id): 
+    cursor.execute(("select score from scores where user_id=(%s)"),(user_id,)) 
     score_input=cursor.fetchone() 
     score=score_input[0] 
     return score 
   
  #func on to play the game 
-def play_game(name,score=0): 
+def play_game(user_id,score=0): 
     choice='y' 
     while choice=='y': 
             try: 
@@ -114,7 +114,7 @@ def play_game(name,score=0):
                 if ans.lower()==correct_word.lower(): 
                     attempts+=1 
                     score+=1 
-                    cursor.execute(('update scores set score=(%s) where username=(%s)'),(str(score),name)) 
+                    cursor.execute(('update scores set score=(%s) where user_id=(%s)'),(str(score),user_id)) 
                     hi.commit() 
                     print("yippeee u got it!!") 
                     break 
@@ -139,14 +139,14 @@ def play_game(name,score=0):
             line() 
   
             if choice.lower()=='n': 
-                    print("*", 'T H A N K S  F O R  P L A Y I N G '," *",name,"*", ' W E  W I S H  Y O U  H A V E  A  G R E A T  D A Y ') 
+                    print("*", 'T H A N K S  F O R  P L A Y I N G '," *",user_id,"*", ' W E  W I S H  Y O U  H A V E  A  G R E A T  D A Y ') 
                     print("*", 'Y O U R  S C O R E  I S  :  ',score) 
                     line() 
                     cursor.execute("select * from scores") 
                     print("*","HERE IS YOUR LEADERBOARD") 
                     line() 
                     k=cursor.fetchall() 
-                    l=[('SCORE','NAME')] 
+                    l=[('SCORE','USER ID')] 
                     user_score=[] 
                     for i in k: 
                             user_score.append(i) 
@@ -154,12 +154,13 @@ def play_game(name,score=0):
                     print(l[0][0]," | ",l[0][1]) 
                     for j in user_score: 
                             print(j[0],' | ',j[1]) 
-                    cursor.execute(" select username ,score from scores where score=(select max(score) from scores)") 
+                    cursor.execute(" select user_id ,score from scores where score=(select max(score) from scores)") 
                     max_score=cursor.fetchall() 
                     line() 
                     print("* THE WINNER IS :","*", max_score[0][0],"*") 
                     line() 
-                    print("* YOU ARE ON ",user_score.index((score,name))+1,"POSITION .") 
+                    
+                    print("* YOU ARE ON ",user_score.index((score,user_id))+1,"POSITION .") 
             elif choice not in 'ny': 
                  print('invalid literal ') 
 creation()

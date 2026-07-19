@@ -22,22 +22,23 @@ CREATE TABLE m (
   words varchar(15) NOT NULL primary key,
   meaning varchar(50) DEFAULT NULL,
   
-) 
+) ;
 
 INSERT INTO m VALUES ('abandon','look after someone'),('abolish','formally put an end to'),('accelerate','rate of change of velocity'),('advocate','synonym of lawyer'),('ballad','a poem or song that narrates a story'),('bedlam','a scene of uproar and confusion'),('cringe','feeling of awkwardness'),('desolate','unhappiness'),('dismantle','take to pieces'),('fasten','close up securely');
 
 CREATE TABLE scores (
-  score int DEFAULT NULL primary key,
-  username varchar(15) NOT NULL,
+  score int DEFAULT NULL,
+  user_id varchar(15) NOT NULL,
+  primary key(user_id)
  
-)
+);
 
 CREATE TABLE user_detail (
   username varchar(50) NOT NULL DEFAULT 'new user',
   user_id varchar(30) DEFAULT NULL,
   passwd varchar(30) DEFAULT NULL,
-  PRIMARY KEY (username)
-)
+  PRIMARY KEY (user_id)
+);
 
 
 

@@ -13,17 +13,15 @@ A word scramble game built using Python and MySQL where users guess the correct 
 ## Setup Instructions
 1. Clone the repo
 2. Install dependencies
-3. Import word_scramble.sql into MySQL
+3. Import schema.sql into MySQL
 ##DATABASE SETUP
 ## 🗄️ Database Setup (MySQL)
 
 3.1. Open MySQL (Command Line or MySQL Workbench)
 
-3.2. Create a database and import data of word_scramble to your database:
+3.2. Setup database:
 
-"CREATE DATABASE your_database;
-USE your_database;
-source word_scramble.sql;;"
+"source schema.sql;"
 
 4. Run word_scramble.py
 <br>
